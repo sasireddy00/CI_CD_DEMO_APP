@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'sasireddy06/ci-cd-demo:latest'
+        VESRION = '1.0.${BUILD_NUMBER}' //dynamic version
+        IMAGE_NAME = 'sasireddy06/ci-cd-demo'
         DOCKER_CREDENTIALS = 'docker-hub-credentials'
     }
 
@@ -37,8 +38,8 @@ pipeline {
                 unstash 'app-jar'  // Retrieve JAR before building Docker image
 
                 withDockerRegistry([credentialsId: DOCKER_CREDENTIALS, url: '']) {
-                    sh 'docker build -t $IMAGE_NAME .'
-                    sh 'docker push $IMAGE_NAME'
+                    sh 'docker build -t $IMAGE_NAME:$VERSION .'
+                    sh 'docker push $IMAGE_NAME:$VESRION'
                 }
             }
         }
