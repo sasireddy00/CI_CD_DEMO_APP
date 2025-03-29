@@ -35,9 +35,7 @@ pipeline {
 
         stage('Docker Build & Push') {
             steps {
-                unstash 'app-jar'  // Retrieve JAR before building Docker image
-
-                withDockerRegistry([credentialsId: DOCKER_CREDENTIALS, url: '']) {
+                    withDockerRegistry([credentialsId: DOCKER_CREDENTIALS, url: '']) {
                     sh "docker build -t ${IMAGE_NAME}:${VERSION} ."
                     sh "docker push ${IMAGE_NAME}:${VERSION}"
                 }
