@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        VESRION = '1.0.0' //dynamic version
+        VERSION = "1.0.${env.BUILD_NUMBER}" // Dynamic version using Jenkins' BUILD_NUMBER
         IMAGE_NAME = 'sasireddy06/ci-cd-demo'
         DOCKER_CREDENTIALS = 'docker-hub-credentials'
     }
@@ -12,7 +12,7 @@ pipeline {
             agent {
                 docker {
                     image "maven:3.9.6-eclipse-temurin-17"
-                    args "-v $PWD:/app -w /app"
+                    args "-v ${WORKSPACE}:/app -w /app"
                 }
             }
             steps {
@@ -25,7 +25,7 @@ pipeline {
             agent {
                 docker {
                     image "maven:3.9.6-eclipse-temurin-17"
-                    args "-v $PWD:/app -w /app"
+                    args "-v ${WORKSPACE}:/app -w /app"
                 }
             }
             steps {
@@ -38,8 +38,8 @@ pipeline {
                 unstash 'app-jar'  // Retrieve JAR before building Docker image
 
                 withDockerRegistry([credentialsId: DOCKER_CREDENTIALS, url: '']) {
-                    sh 'docker build -t $IMAGE_NAME:$VERSION .'
-                    sh 'docker push $IMAGE_NAME:$VESRION'
+                    sh "docker build -t ${IMAGE_NAME}:${VERSION} ."
+                    sh "docker push ${IMAGE_NAME}:${VERSION}"
                 }
             }
         }
