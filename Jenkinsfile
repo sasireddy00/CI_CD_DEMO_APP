@@ -17,7 +17,7 @@ pipeline {
             }
             steps {
                 sh 'mvn clean package'
-                stash includes: 'target/*.jar', name: 'app-jar'
+                archiveArtifacts artifacts = target/*
             }
         }
 
