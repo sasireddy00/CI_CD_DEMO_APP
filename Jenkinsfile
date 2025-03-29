@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        VESRION = '1.0.${BUILD_NUMBER}' //dynamic version
+        VESRION = '1.0.${env.BUILD_NUMBER}' //dynamic version
         IMAGE_NAME = 'sasireddy06/ci-cd-demo'
         DOCKER_CREDENTIALS = 'docker-hub-credentials'
     }
