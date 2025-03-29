@@ -17,7 +17,7 @@ pipeline {
             }
             steps {
                 sh 'mvn clean package'
-                archiveArtifacts artifacts = target/*
+                archiveArtifacts artifacts: 'target/*.jar'
             }
         }
 
